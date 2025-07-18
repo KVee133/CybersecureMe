@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Awareness Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .question { margin-bottom: 10px; }
+    .hidden { display: none; }
+    .drop-area { border: 2px dashed #ccc; padding: 10px; margin: 10px; width: 150px; min-height: 100px; display: inline-block; vertical-align: top; }
+    .draggable { padding: 5px; border: 1px solid #000; background: #f0f0f0; cursor: grab; margin-bottom: 5px; }
+    .feedback { margin-top: 10px; color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>Privacy Awareness Quiz</h1>
+  <form id="quizForm">
+    <div id="quizSection">
+      <!-- Questions -->
+    </div>
+    <button type="submit">Submit Quiz</button>
+  </form>
+
+  <div id="gameSection" class="hidden">
+    <h2>Drag-and-Drop Privacy Trainer</h2>
+    <p>Drag the items below to either "To Share" or "Not to Share"</p>
+
+    <div>
+      <div class="draggable" draggable="true" data-correct="not">Phone number</div>
+      <div class="draggable" draggable="true" data-correct="not">Birthday</div>
+      <div class="draggable" draggable="true" data-correct="not">Home address</div>
+      <div class="draggable" draggable="true" data-correct="to">Favourite movie</div>
+      <div class="draggable" draggable="true" data-correct="to">Favourite food</div>
+      <div class="draggable" draggable="true" data-correct="not">Mother's maiden name</div>
+      <div class="draggable" draggable="true" data-correct="not">Personal email</div>
+    </div>
+
+    <div class="drop-area" id="toShare">To Share</div>
+    <div class="drop-area" id="notToShare">Not to Share</div>
+
+    <div id="feedback" class="feedback"></div>
+  </div>
+
+  <script>
+    const questions = [
+      "Do you give your phone number to companies when signing up to accounts?",
+      "Have you ever given your home address to make an account?",
+      "Do you use your personal email for all services, even untrusted ones?",
+      "Do you post your birthday on social media?",
+      "Do you use the same password across multiple sites?",
+      "Do you give apps location access without checking why?",
+      "Have you ever sent personal documents through unsecured email?",
+      "Do you use social media privacy settings effectively?",
+      "Have you enabled 2FA on your accounts?",
+      "Do you accept browser cookies without reading permissions?"
+    ];
+
+    const quizSection = document.getElementById('quizSection');
+    questions.forEach((q, index) => {
+      const div = document.createElement('div');
+      div.classList.add('question');
+      div.innerHTML = `<label>${q}</label><br>
+        <input type="radio" name="q${index}" value="yes" required> Yes
+        <input type="radio" name="q${index}" value="no"> No`;
+      quizSection.appendChild(div);
+    });
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let score = 0;
+      for (let i = 0; i < questions.length; i++) {
+        const answer = document.querySelector(`input[name=q${i}]:checked`).value;
+        if (answer === 'no') score++; // 'no' is considered the safe privacy-preserving answer
+      }
+      if (score < 8) {
+        document.getElementById('gameSection').classList.remove('hidden');
+        document.getElementById('quizForm').classList.add('hidden');
+      } else {
+        alert("Great job! You seem to take your privacy seriously.");
+      }
+    });
+
+    const draggables = document.querySelectorAll('.draggable');
+    const dropZones = document.querySelectorAll('.drop-area');
+    const feedback = document.getElementById('feedback');
+
+    draggables.forEach(item => {
+      item.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', item.innerText);
+        e.dataTransfer.setData('correct', item.getAttribute('data-correct'));
+        e.dataTransfer.setData('id', item.innerText);
+      });
+    });
+
+    dropZones.forEach(zone => {
+      zone.addEventListener('dragover', e => e.preventDefault());
+      zone.addEventListener('drop', e => {
+        e.preventDefault();
+        const draggedText = e.dataTransfer.getData('text/plain');
+        const correct = e.dataTransfer.getData('correct');
+        const target = zone.id === 'toShare' ? 'to' : 'not';
+
+        const messageMap = {
+          'Phone number': 'Your phone number can be used to track or spam you. Best to keep it private.',
+          'Birthday': 'Birthdays can help hackers guess passwords and security questions.',
+          'Home address': 'Your address is sensitive information that can put your safety at risk.',
+          'Favourite movie': 'General preferences like movies are usually safe to share.',
+          'Favourite food': 'It is okay to share yourfavorutie food as it is not personally identifiable.',
+          'Mother\'s maiden name': 'This is often used in security questions. Never share it publicly.',
+          'Personal email': 'Revealing your main email can lead to spam or phishing.'
+        };
+
+        feedback.innerText = (correct === target ? 'Correct! ' : 'Incorrect. ') + messageMap[draggedText];
+      });
+    });
+  </script>
+</body>
+</html>
