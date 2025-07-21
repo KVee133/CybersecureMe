@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Footprint Awareness Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div id="quiz-section">
+      <h1>How Exposed Are You Online?</h1>
+      <div id="question-box"></div>
+      <div id="answers"></div>
+      <button id="next-btn">Next</button>
+    </div>
+
+    <div id="game-section" class="hidden">
+      <h1>Your Data Trail</h1>
+      <p>Click the buttons below as if you were using a social media app. Your choices will affect your digital footprint.</p>
+      <div class="sim-buttons">
+        <button onclick="simulateClick('Share Location')">Share Location</button>
+        <button onclick="simulateClick('Allow Camera Access')">Allow Camera</button>
+        <button onclick="simulateClick('Accept All Cookies')">Accept Cookies</button>
+        <button onclick="simulateClick('Post Birthday')">Post Birthday</button>
+        <button onclick="simulateClick('Deny Permissions')">Deny All Permissions</button>
+      </div>
+      <h2>Metadata Captured:</h2>
+      <ul id="footprint-log"></ul>
+      <button onclick="showResults()">See My Digital Footprint</button>
+    </div>
+
+    <div id="result-section" class="hidden">
+      <h1>Results</h1>
+      <p id="score-result"></p>
+      <p id="footprint-summary"></p>
+    </div>
+    
+  </div>
+   <section id="video-section" style="margin-top: 40px;">
+      <h2>Watch: How Your Digital Footprint Forms</h2>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/uAlOtq0e6nY" 
+        title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </section>
+  </div>
+
+  <script>
+    const quizQuestions = [
+      {
+        question: "Do you use the same password across multiple accounts?",
+        answers: ["Yes", "No"],
+        correct: "No"
+      },
+      {
+        question: "Do you regularly check app permissions on your phone?",
+        answers: ["Yes", "No"],
+        correct: "Yes"
+      },
+      {
+        question: "Have you ever clicked 'Accept All Cookies' without reading?",
+        answers: ["Yes", "No"],
+        correct: "No"
+      },
+      {
+        question: "Do you use a VPN on public Wi-Fi?",
+        answers: ["Yes", "No"],
+        correct: "Yes"
+      },
+      {
+        question: "Have you posted personal details like your birthday online?",
+        answers: ["Yes", "No"],
+        correct: "No"
+      },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    const metadata = [];
+
+    const questionBox = document.getElementById('question-box');
+    const answersBox = document.getElementById('answers');
+    const nextBtn = document.getElementById('next-btn');
+
+    function loadQuestion() {
+      const q = quizQuestions[currentQuestion];
+      questionBox.innerText = q.question;
+      answersBox.innerHTML = '';
+      q.answers.forEach(answer => {
+        const btn = document.createElement('button');
+        btn.innerText = answer;
+        btn.onclick = () => selectAnswer(answer);
+        answersBox.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(answer) {
+      if (answer === quizQuestions[currentQuestion].correct) {
+        score++;
+      }
+      currentQuestion++;
+      if (currentQuestion < quizQuestions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById('quiz-section').classList.add('hidden');
+        document.getElementById('game-section').classList.remove('hidden');
+      }
+    }
+
+    function simulateClick(action) {
+      const log = document.getElementById('footprint-log');
+      const li = document.createElement('li');
+      li.innerText = `${action} clicked - Data captured`;
+      log.appendChild(li);
+      metadata.push(action);
+    }
+
+    function showResults() {
+      document.getElementById('game-section').classList.add('hidden');
+      document.getElementById('result-section').classList.remove('hidden');
+      document.getElementById('score-result').innerText = `Quiz Score: ${score}/${quizQuestions.length}`;
+      document.getElementById('footprint-summary').innerText = `You left a digital trail of: ${metadata.join(', ')}.`;
+    }
+
+    nextBtn.onclick = () => loadQuestion();
+
+    // Init
+    loadQuestion();
+  </script>
+   <script src="script.js" defer></script>
+</body>
+</html>
+
