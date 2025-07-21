@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spot a Scam Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Can You Spot a Scam?</h1>
+
+  <div class="quiz">
+    <h2>Quiz - Beginner & Advanced</h2>
+    <form id="quizForm">
+      <!-- Original Questions -->
+      <div class="question">
+        <label>1. Would you click on a link in an email saying “Your package is on hold”?</label><br>
+        <input type="radio" name="q1" value="no"> No<br>
+        <input type="radio" name="q1" value="yes"> Yes
+      </div>
+      <div class="question">
+        <label>2. Is it okay to share your bank info with someone posing as your boss?</label><br>
+        <input type="radio" name="q2" value="no"> No<br>
+        <input type="radio" name="q2" value="yes"> Yes
+      </div>
+      <div class="question">
+        <label>3. What would you do if you got an email from your ‘bank’ asking for your PIN?</label><br>
+        <input type="radio" name="q3" value="report"> Report it<br>
+        <input type="radio" name="q3" value="reply"> Reply and give it
+      </div>
+      <div class="question">
+        <label>4. Have you received SMS messages with suspicious links?</label><br>
+        <input type="radio" name="q4" value="yes"> Yes<br>
+        <input type="radio" name="q4" value="no"> No
+      </div>
+      <div class="question">
+        <label>5. What is spear phishing?</label><br>
+        <input type="radio" name="q5" value="targeted"> A targeted scam<br>
+        <input type="radio" name="q5" value="random"> Random messages
+      </div>
+
+      <!-- Advanced Questions -->
+      <div class="question">
+        <label>6. You get an email from 'admin@bank-secure.com'. What should you do?</label><br>
+        <input type="radio" name="q6" value="b"> Call your bank using the official number<br>
+        <input type="radio" name="q6" value="a"> Click the link<br>
+      </div>
+      <div class="question">
+        <label>7. A co-worker asks for your credentials to help troubleshoot. What do you do?</label><br>
+        <input type="radio" name="q7" value="b"> Say no and report it<br>
+        <input type="radio" name="q7" value="a"> Give them access
+      </div>
+      <div class="question">
+        <label>8. Which password has the highest entropy?</label><br>
+        <input type="radio" name="q8" value="c"> v@1Tz93F!x<br>
+        <input type="radio" name="q8" value="d"> Password123
+      </div>
+      <div class="question">
+        <label>9. What is a Type II error in phishing detection?</label><br>
+        <input type="radio" name="q9" value="c"> Failing to detect a phishing email<br>
+        <input type="radio" name="q9" value="a"> Marking a safe email as spam
+      </div>
+      <div class="question">
+        <label>10. What does "Security Theatre" mean?</label><br>
+        <input type="radio" name="q10" value="c"> A false sense of security<br>
+        <input type="radio" name="q10" value="a"> Discourages innovation
+      </div>
+
+      <button type="button" onclick="checkQuiz()">Submit Quiz</button>
+    </form>
+    <div id="quizResult"></div>
+  </div>
+
+  <div class="game" id="game" style="display:none">
+    <h2>Phish or Legit?</h2>
+    <p>Drag the messages into the correct box:</p>
+    <div class="drag-container">
+      <div class="box" id="phishing" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <strong>Phishing</strong>
+      </div>
+      <div class="box" id="safe" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <strong>Safe</strong>
+      </div>
+    </div>
+    <div id="items">
+      <div class="draggable" id="item1" draggable="true" ondragstart="drag(event)">
+        "Urgent: Your account is locked. Click here to verify."
+      </div>
+      <div class="draggable" id="item2" draggable="true" ondragstart="drag(event)">
+        "ATO reminder: Lodgement due soon. Visit ato.gov.au."
+      </div>
+      <div class="draggable" id="item3" draggable="true" ondragstart="drag(event)">
+        "Click here to claim your $1000 gift card before it expires!"
+      </div>
+      <div class="draggable" id="item4" draggable="true" ondragstart="drag(event)">
+        "UNSW Security Notification: We will never ask for your password."
+      </div>
+    </div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- YouTube Video Embed -->
+  <div class="quiz" style="margin-top: 40px;">
+    <h2>Watch Our Video</h2>
+    <iframe width="100%" height="400" src="https://www.youtube.com/embed/HHYCo_AvwQg"
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+      encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    const correctAnswers = {
+      q1: 'no', q2: 'no', q3: 'report', q4: 'yes', q5: 'targeted',
+      q6: 'b', q7: 'b', q8: 'c', q9: 'c', q10: 'c'
+    };
+
+    function checkQuiz() {
+      let score = 0;
+      for (let q in correctAnswers) {
+        const answer = document.querySelector(`input[name="${q}"]:checked`);
+        if (answer && answer.value === correctAnswers[q]) {
+          score++;
+        }
+      }
+      const result = document.getElementById('quizResult');
+      result.innerText = `You scored ${score}/10.`;
+      if (score < 8) {
+        result.innerText += " Try the interactive game below!";
+        document.getElementById('game').style.display = 'block';
+      }
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("text");
+      const item = document.getElementById(data);
+      ev.target.appendChild(item);
+
+      const feedback = document.getElementById('feedback');
+      if ((data === 'item1' || data === 'item3') && ev.target.id === 'phishing') {
+        feedback.innerText = 'Correct: That is a phishing message exploiting urgency or rewards.';
+      } else if ((data === 'item2' || data === 'item4') && ev.target.id === 'safe') {
+        feedback.innerText = 'Correct: This appears to be a legitimate message from a trusted source.';
+      } else {
+        feedback.innerText = 'Incorrect placement. Try again.';
+      }
+    }
+  </script>
+</body>
+</html>
