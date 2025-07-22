@@ -19,7 +19,7 @@ CybersecureWeb/
 
 ## 🌟 Features
 
-### ✅ Spot a Scam Quiz (`index.html`)
+### 🎣 Spot a Scam Quiz (`Phishingteacher`)
 - **10-question multiple choice quiz** covering phishing and scam tactics.
 - If score < 8/10, users unlock an **interactive "Phish or Legit?" drag-and-drop game**.
 - Embedded YouTube explainer video:  
@@ -27,19 +27,27 @@ CybersecureWeb/
 
 ---
 
-### 🔐 Privacy Trainer (`privacytrainer.html`)
+### 🔐 Privacy Trainer (`Privacyteacher`)
 - 10-question privacy habits quiz (e.g. phone number sharing, 2FA usage).
-- A drag-and-drop game where users classify personal information as "To Share" or "Not to Share".
+- A **drag-and-drop game** where users classify personal info as "To Share" or "Not to Share".
 - Embedded YouTube video on privacy awareness.
 
 ---
 
-### 🧠 Digital Footprint Simulation (`index.html` + `script.js`)
-- After a quiz on digital exposure habits, users interact with simulated app permissions.
-- Tracks digital actions like "Share Location", "Post Birthday", and displays a summary of metadata.
+### 🧠 Digital Footprint Simulation (`SurveillanceTeacher`)
+- A short quiz on **digital exposure** habits.
+- Users simulate online decisions like "Share Location", "Enable Cookies", etc.
+- Final summary shows how metadata builds a digital trail.
+- - Embedded YouTube video on metdata awareness.
 
 ---
 
+### 🔑 Password Trainer (`Passwordtrainer`)
+- Quiz assessing password strength and reuse behaviours.
+- A **password creation helper** guiding users to build stronger, more secure passwords using tips based on entropy.
+- Embedded explainer video on brute force attacks and entropy. 
+
+---
 ## 🎯 Learning Objectives
 - Identify common online scams and phishing attempts.
 - Improve personal digital hygiene and data sharing practices.
