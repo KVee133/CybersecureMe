@@ -7,7 +7,7 @@
 ## 📁 Project Structure
 
 ## File Structure
-'''text
+```text
 CybersecureWeb/
 ├── Phishingteacher           # Phishing quiz + drag-and-drop game
 ├── Privacyteacher   # Privacy Awareness quiz + drag-and-drop game
