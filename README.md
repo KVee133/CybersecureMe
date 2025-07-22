@@ -6,12 +6,15 @@
 
 ## 📁 Project Structure
 
+## File Structure
+```text
 CybersecureWeb/
-├── Passwrodtrainer
-├── Privacyteacher
-├── Surveillanceteacher
-├── Phishingteacher
-└── README.md # Project overview and usage instructions
+├── Phishingteacher           # Phishing quiz + drag-and-drop game
+├── Privacyteacher   # Privacy Awareness quiz + drag-and-drop game
+├── Passwordteacher          # Password quiz + password trainer
+├── SurveillanceTeacher             # Surveillance quiz with metadata simulator
+└── README.md             # Project overview and usage instructions
+
 
 ---
 
