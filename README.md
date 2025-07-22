@@ -7,11 +7,10 @@
 ## 📁 Project Structure
 
 CybersecureWeb/
-│
-├── index.html # Main quiz: "Can You Spot a Scam?"
-├── privacytrainer.html # Privacy Awareness quiz + drag-and-drop game
-├── script.js # JavaScript for digital footprint simulation
-├── style.css # Central styles for layout and theming
+├── Passwrodtrainer
+├── Privacyteacher
+├── Surveillanceteacher
+├── Phishingteacher
 └── README.md # Project overview and usage instructions
 
 ---
